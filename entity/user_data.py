@@ -18,6 +18,11 @@ class UserData:
         self.current_portfolio = None
 
     def get_portfolio(self, portfolio_name):
+        """
+        Gets a portfolio from the user's data. Creates a new portfolio if the name didn't exist.
+        :param portfolio_name: The name of the portfolio to return
+        :return: The portfolio
+        """
         if portfolio_name not in self.portfolios:
             self.portfolios[portfolio_name] = Portfolio()
         self.current_portfolio = self.portfolios[portfolio_name]

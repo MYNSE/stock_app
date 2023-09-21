@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory, request, make_response
 
 from entity.stock_data import RawData
-from entity.user_data import UserData, Portfolio
+from entity.user_data import UserData
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
@@ -25,6 +25,12 @@ def get_resource(path):
 
 @app.route('/v1/add_stock', methods=['POST'])
 def add_stock_to_portfolio():
+    """
+    Adds a stock to the users' currently active portfolio
+
+    Required fields:
+     - ticker: the stock ticker
+    """
     response = make_response()
     ticker = request.form['ticker']
 
