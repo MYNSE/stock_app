@@ -1,5 +1,6 @@
 from util import download_data as dd
 
+import requests
 
 class RawData:
     """
@@ -28,7 +29,11 @@ class RawData:
             return True
 
         # Download the data
-        ticker_data = dd.download_ticker_data(ticker, period='max', interval='1mo')
+        try:
+            ticker_data = dd.download_ticker_data(ticker, period='max', interval='1mo')
+        except requests.exceptions.HTTPError:
+            return False
+
         if len(ticker_data):
             self.data[ticker] = ticker_data
             return True

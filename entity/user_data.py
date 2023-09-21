@@ -7,24 +7,18 @@ class Portfolio:
         self.fixed_rate_assets = dict()
         self.symbols = []
 
-    def add_ticker(self, ticker, data_store):
-        """
-        Adds a ticker to the portfolio. Ensures data was correctly downloaded.
-        :param ticker: The ticker to be added
-        :param data_store: The data store responsible for fetching the information
-        :return: Whether the operation was successful
-        """
-        if ticker in data_store:
-            self.symbols.append(ticker)
-            return True
-        else:
-            if data_store.add_ticker_data(ticker):
-                self.symbols.append(ticker)
-                return True
-            else:
-                return False
 
 class UserData:
+    """
+    User Data object that stores their fixed rate assets, and portfolios
+    """
     def __init__(self):
         self.fixed_rate_assets = dict()
-        self.portfolios = []
+        self.portfolios = dict()
+        self.current_portfolio = None
+
+    def get_portfolio(self, portfolio_name):
+        if portfolio_name not in self.portfolios:
+            self.portfolios[portfolio_name] = Portfolio()
+        self.current_portfolio = self.portfolios[portfolio_name]
+        return self.current_portfolio
