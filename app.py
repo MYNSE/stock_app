@@ -3,6 +3,8 @@ from flask import Flask, send_from_directory, request, make_response, jsonify
 from entity.stock_data import RawData, get_fixed_symbol
 from entity.user_data import UserData
 import util.misc as MU
+import gdportfolio.transform_data as TD
+import gdportfolio.createportfolio as CP
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
@@ -131,6 +133,25 @@ def set_gd_params():
     response = jsonify(params.params)
     response.status_code = 200
 
+    return response
+
+
+@app.route('/v1/run_gd', methods=['POST'])
+def run_gd():
+    """
+    Runs gradient descent using currently set GD Parameters
+
+    :return: Json response, containing exp, var and proportions of the portfolio.
+    """
+    port_df = TD.get_portfolio_df(USER_DATA.current_portfolio, DATA_STORE)
+    cov, expected = TD.get_cov_expected(port_df)
+    gdp = CP.GDPortfolio(port_df, cov, expected)
+    gdp.gd_portfolio(**CP.make_gd_args(USER_DATA.gd_params.params))
+    results = gdp.get_exp_var()
+    results['prop_list'] = gdp.get_proportions_list()
+
+    response = jsonify(results)
+    response.status_code = 200
     return response
 
 

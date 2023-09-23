@@ -84,3 +84,6 @@ class RawData:
         :return: Whether the ticker is in our data storage
         """
         return ticker in self.data
+
+    def __getitem__(self, item):
+        return self.data[item]

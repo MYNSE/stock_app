@@ -32,3 +32,9 @@ def set_categories(data):
     response = requests.post(BASE_URL + 'v1/set_all_allocations', json=data)
     print(response.content)
     return response
+
+
+def run_gd():
+    response = requests.post(BASE_URL + 'v1/run_gd')
+    print(response.content)
+    return response
