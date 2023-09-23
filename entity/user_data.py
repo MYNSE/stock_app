@@ -5,6 +5,7 @@ class Portfolio:
         Symbols is an ordered list of symbols representing the portfolio
         """
         self.symbols = []
+        self.percentage_allocations = dict()
 
 
 class UserData:
