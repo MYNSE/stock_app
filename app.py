@@ -1,7 +1,8 @@
-from flask import Flask, send_from_directory, request, make_response
+from flask import Flask, send_from_directory, request, make_response, jsonify
 
 from entity.stock_data import RawData, get_fixed_symbol
 from entity.user_data import UserData
+import util.misc as MU
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
@@ -108,6 +109,28 @@ def set_all_allocations():
 
     portfolio.percentage_allocations = response.data
     response.status_code = 200
+    return response
+
+
+@app.route('/v1/set_gd_params', methods=['POST'])
+def set_gd_params():
+    """
+    Sets GD params.
+    Resulting parameters must retain the same key structure, and have the same variable
+    types.
+
+    Pass in a json with the same structure as the existing parameters in order to overwrite
+    shared fields
+    """
+    request_data = request.get_json()
+    params = USER_DATA.gd_params
+
+    MU.overwrite_existing_values_in_struct(params.params, request_data,
+                                           check_same_type=True)
+
+    response = jsonify(params.params)
+    response.status_code = 200
+
     return response
 
 
