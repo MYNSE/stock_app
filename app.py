@@ -92,5 +92,24 @@ def add_fixed_rate():
     return response
 
 
+@app.route('/v1/set_all_allocations', methods=['POST'])
+def set_all_allocations():
+    """
+    Sets categories
+    """
+    request_data = request.get_json()
+    portfolio = USER_DATA.current_portfolio
+    response = make_response()
+
+    if set(request_data.keys()) != set(portfolio.symbols):
+        response.status_code = 400
+        response.data = "Failed. Make sure you include an allocation for each portfolio symbol."
+        return response
+
+    portfolio.percentage_allocations = response.data
+    response.status_code = 200
+    return response
+
+
 if __name__ == '__main__':
     Flask.run(app)
