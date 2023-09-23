@@ -22,6 +22,12 @@ def add_fixed(symbol, data=None):
     return response
 
 
+def set_params(params):
+    response = requests.post(BASE_URL + 'v1/set_gd_params', json=params)
+    print(response.content)
+    return response
+
+
 def set_categories(data):
     response = requests.post(BASE_URL + 'v1/set_all_allocations', json=data)
     print(response.content)
