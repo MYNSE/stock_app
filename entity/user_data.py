@@ -23,9 +23,8 @@ class GDParams:
         """
         sample_params = {
             'EXP': {'gain': 0},
-            'VAR': {'gain': 0},
-            'MAX_PROP': {'type': 'ReLU',
-                         'bound': 0,
+            'VAR': {'gain': 1},
+            'MAX_PROP': {'bound': 0,
                          'gain': 0},
             'INDIVIDUAL': []
         }
