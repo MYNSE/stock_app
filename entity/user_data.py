@@ -7,6 +7,12 @@ class Portfolio:
         self.symbols = []
         self.percentage_allocations = dict()
 
+    def remove(self, symbol):
+        self.symbols.remove(symbol)
+
+    def __contains__(self, item):
+        return item in self.symbols
+
 
 class GDParams:
     """

@@ -22,6 +22,12 @@ def add_fixed(symbol, data=None):
     return response
 
 
+def remove_stock(symbol):
+    response = requests.post(BASE_URL + 'v1/remove_symbol', data={'symbol': symbol})
+    print(response.content)
+    return response
+
+
 def set_params(params):
     response = requests.post(BASE_URL + 'v1/set_gd_params', json=params)
     print(response.content)

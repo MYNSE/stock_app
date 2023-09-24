@@ -64,6 +64,21 @@ def add_fixed_rate(form):
             'data': 'Portfolio: ' + str(portfolio.symbols)}
 
 
+def remove_symbol_from_portfolio(symbol):
+    """
+    Removes a symbol from the current portfolio
+    :param symbol: The symbol to remove
+    """
+    portfolio = USER_DATA.current_portfolio
+    if symbol in portfolio:
+        portfolio.remove(symbol)
+        return {'code': 200,
+                'data': 'Portfolio: ' + str(portfolio.symbols)}
+    else:
+        return {'code': 400,
+                'data': 'Symbol not found in current portfolio'}
+
+
 def set_all_allocations(request_data):
     """
     Sets proportion allocations
