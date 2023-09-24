@@ -53,6 +53,16 @@ def add_fixed_rate():
     return create_response(response_args)
 
 
+@app.route('/v1/remove_symbol', methods=['POST'])
+def remove_symbol_from_portfolio():
+    """
+    Removes a stock to the users' currently active portfolio
+    """
+    ticker = request.form['symbol']
+    response_args = Server.remove_symbol_from_portfolio(ticker)
+    return create_response(response_args)
+
+
 @app.route('/v1/set_all_allocations', methods=['POST'])
 def set_all_allocations():
     """
