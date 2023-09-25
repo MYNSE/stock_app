@@ -1,0 +1,147 @@
+/* Specific styling for the sidebar */
+
+#sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container with 'add new asset' buttons */
+#add-buttons-container {
+    grid-row: 1 / span 2;
+}
+
+/* 
+Discord-like sidebar containers,
+each one is expected to contain some text divs
+*/
+.sb-container {
+    background-color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: stretch;
+    margin: 10px 5px 0 12px;
+    padding: 0 0 10px 0;
+}
+
+/* sidebar containers have a smaller-font title */
+.sb-title {
+    margin: none;
+    text-align: left;
+    padding: 0 5px 0 15px;
+    color: #EEEEEE;
+    font-size: 14px;
+    font-weight: bold;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* big text panel on the sidebar */
+.sidebar-text {
+    text-align: left;
+    flex-grow: 1; /* Make the items grow to fill the available horizontal space */
+    flex-shrink: 1; /* Allow the items to shrink if necessary */
+    flex-basis: 0; /* Distribute extra space equally among the items */
+    padding: 5px 5px 15px 5px;
+    background-color: inherit;
+    color: #EEEEEE;
+    border: none;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 20px;
+}
+
+.sidebar-text > p {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+/* Sidebar text panels that are hoverable */
+.sidebar-text-hover:hover {
+    color: #E5E5E5;
+    background-color: #444444;
+    /* border: 1px solid white; */
+}
+
+/* Sidebar panels that are clickable */
+.sb-button:active {
+    color: #FFFFFF;
+    background-color: #666666;
+}
+
+/* Form that appears to add an asset */
+#add-asset-form {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 5px 0 12px;
+    padding: 0 0 10px 0;
+    color: #EEEEEE;
+    font-family: inherit;
+    border: 1px solid #888888;
+    padding: 10px;
+}
+
+/* Forms in the sidebar, eg. to add a new asset */
+.sb-form-field {
+    display:flex;
+    justify-content: space-between;
+}
+
+.sb-form-field > input {
+    margin: 10px 0;
+    padding: 5px;
+    background-color: #555555;
+    border: none;
+    width: 60%;
+    border-radius: 5px;
+    color: inherit;
+}
+
+.sb-form-field > input::placeholder {
+    color: #AAAAAA;
+}
+
+.sb-form-field > input:focus {
+    outline: none;
+}
+
+.sb-form-field > button {
+    width: 100%;
+    background-color: #444444;
+    color: #DDDDDD;
+    border: none;
+    padding: 10px 0;
+}
+
+.sb-form-field > button:hover {
+    background-color: #777777;
+    color: #EEEEEE;
+}
+
+.sb-form-field > button:active {
+    background-color: #A0A0A0;
+    color: #FFFFFF;
+}
+
+/* Symbol info listing in sidebar */
+.symbol-info {
+    display: flex;
+}
+
+/* Buttons related to ticker, eg. remove button */
+.ticker-buttons {
+    margin-left: auto;
+}
+
+.ticker-buttons > button {
+    background-color: #333333;
+    color: #DDDDDD;
+    font-family: inherit;
+    border: none;
+    padding: 5px 5px;
+}
+
+.ticker-buttons > button:active {
+    background-color: #666666;
+    color: #ffffff;
+}

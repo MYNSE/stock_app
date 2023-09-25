@@ -1,0 +1,39 @@
+/* Basic styling for the entire window */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#main-container {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(24, 1fr);
+}
+
+#header {
+    grid-row: 1 / span 1;
+    grid-column: 1 / -1;
+    background-color: #181818;
+    color: #D9D9D9;
+    font-weight: bold;
+    text-align: center;
+}
+
+#header > h3 {
+    padding: 0;
+}
+
+#sidebar {
+    background-color: #242424;
+    grid-column: 1 / span 1;
+    grid-row: 2 / -1;
+}
+
+#widgets-container {
+    background-color: #444444;
+    grid-column: 2 / -1;
+    grid-row: 2 / -1;
+}
