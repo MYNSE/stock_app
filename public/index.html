@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="util.css">
+</head>
+<body>
+    <div id="main-container">
+        <div id="header"><h3>Stock App 🤑</h3></div>
+        <div id="sidebar">
+            <!-- Add new asset, Stock/Fixed/Category -->
+            <div id="add-buttons-container" class="sb-container">
+                <p class="sb-title">Add New Asset</p>
+                <div class="sb-button sidebar-text sidebar-text-hover" id="add-stock-button" onclick="addStockButtonOnclick()">
+                    <p>Stock 📈</p>
+                </div>
+                <div class="sb-button sidebar-text sidebar-text-hover">
+                    <p>Fixed 💸</p>
+                </div>
+                <div class="sb-button sidebar-text sidebar-text-hover">
+                    <p>Category 😺</p>
+                </div>
+            </div>
+            
+            <!-- Form that pops up when we want to add new item -->
+            <div id="variable-form">
+            </div>
+
+            <!-- All the symbols in portfolio -->
+            <div id="symbols-container" class="sb-container">
+                <p class="sb-title">Assets in Portfolio</p>
+                {{ asset_symbols_list|safe }}
+            </div>
+        </div>
+        <div id="widgets-container">
+        </div>
+    </div>
+    <script src="portfolio.js"></script>
+</body>
+</html>

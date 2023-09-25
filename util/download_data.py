@@ -17,3 +17,11 @@ def download_ticker_data(ticker, period='max', interval='1mo'):
     hist = tmp.history(period=period, interval=interval)
     hist.columns = [ticker + '_' + colname for colname in hist.columns]
     return hist
+
+
+def get_company_name(ticker):
+    tmp = yf.Ticker(ticker)
+    if 'longName' in tmp.info:
+        return tmp.info['longName']
+    else:
+        return ''
