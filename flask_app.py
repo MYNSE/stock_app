@@ -1,8 +1,8 @@
-from flask import Flask, send_from_directory, request, make_response, jsonify
+from flask import Flask, send_from_directory, request, make_response, jsonify, render_template
 
 import stock_server as Server
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='public')
 app.config['SECRET_KEY'] = 'mysecret'
 
 
@@ -23,6 +23,29 @@ def create_response(args):
     return response
 
 
+def create_portfolio_html():
+    """
+    Creates HTML for the portfolio when the user loads the page
+    :return:
+    """
+    # TODO potential injection vulnerability here but ok
+    # also responsibility is being split across front and backend
+    # most likely we want to make an endpoint to give user data, and we render it on the frontend..
+    symbols = Server.USER_DATA.current_portfolio.symbols
+    template = """
+    <div class="symbol-info sidebar-text sidebar-text-hover">
+        <p>{TICKER}</p>
+        <div class="ticker-buttons">
+            <button onclick=removeStock('{TICKER}')>Remove</button>
+        </div>
+    </div>
+    """
+    out_str = ''
+    for s in symbols:
+        out_str += template.replace('{TICKER}', s)
+    return out_str
+
+
 # https://stackoverflow.com/questions/15117416/capture-arbitrary-path-in-flask-route
 @app.route('/<path:path>')
 def get_resource(path):
@@ -34,12 +57,22 @@ def get_resource(path):
     return send_from_directory('public', path)
 
 
+@app.route('/')
+def get_home():
+    """
+    Gets homepage
+    :return:
+    """
+    return render_template('index.html', asset_symbols_list=create_portfolio_html())
+
+
 @app.route('/v1/add_stock', methods=['POST'])
 def add_stock_to_portfolio():
     """
     Adds a stock to the users' currently active portfolio
     """
-    ticker = request.form['ticker']
+    data = request.get_json()
+    ticker = data['ticker']
     response_args = Server.add_stock_to_portfolio(ticker)
     return create_response(response_args)
 
@@ -49,7 +82,7 @@ def add_fixed_rate():
     """
     Adds a fixed rate asset to the users' currently active portfolio
     """
-    response_args = Server.add_fixed_rate(request.form)
+    response_args = Server.add_fixed_rate(request.get_json())
     return create_response(response_args)
 
 
@@ -58,7 +91,7 @@ def remove_symbol_from_portfolio():
     """
     Removes a stock to the users' currently active portfolio
     """
-    ticker = request.form['symbol']
+    ticker = request.get_json()['symbol']
     response_args = Server.remove_symbol_from_portfolio(ticker)
     return create_response(response_args)
 
