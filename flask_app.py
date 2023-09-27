@@ -23,29 +23,6 @@ def create_response(args):
     return response
 
 
-def create_portfolio_html():
-    """
-    Creates HTML for the portfolio when the user loads the page
-    :return:
-    """
-    # TODO potential injection vulnerability here but ok
-    # also responsibility is being split across front and backend
-    # most likely we want to make an endpoint to give user data, and we render it on the frontend..
-    symbols = Server.USER_DATA.current_portfolio.symbols
-    template = """
-    <div class="symbol-info sidebar-text sidebar-text-hover">
-        <p>{TICKER}</p>
-        <div class="ticker-buttons">
-            <button onclick=removeStock('{TICKER}')>Remove</button>
-        </div>
-    </div>
-    """
-    out_str = ''
-    for s in symbols:
-        out_str += template.replace('{TICKER}', s)
-    return out_str
-
-
 # https://stackoverflow.com/questions/15117416/capture-arbitrary-path-in-flask-route
 @app.route('/<path:path>')
 def get_resource(path):
@@ -63,7 +40,13 @@ def get_home():
     Gets homepage
     :return:
     """
-    return render_template('index.html', asset_symbols_list=create_portfolio_html())
+    return send_from_directory('public', 'index.html')
+
+
+@app.route('/v1/get_user_data', methods=['POST'])
+def get_user_data():
+    response_args = Server.return_user_data()
+    return create_response(response_args)
 
 
 @app.route('/v1/add_stock', methods=['POST'])

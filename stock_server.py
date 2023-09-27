@@ -1,5 +1,6 @@
 from entity.stock_data import RawData, get_fixed_symbol
 from entity.user_data import UserData
+from data_transfer.webapp_wrapper import user_data_to_json
 
 import util.misc as MU
 import gdportfolio.transform_data as TD
@@ -127,3 +128,12 @@ def run_gd():
 
     return {'code': 200,
             'json': results}
+
+
+def return_user_data():
+    """
+    Returns all user data as a JSON
+    :return:
+    """
+    return {'code': 200,
+            'json': user_data_to_json(USER_DATA)}
