@@ -7,7 +7,6 @@ const userDataEndpoint = baseURL + 'v1/get_user_data'
 const addNewAssetForm = document.getElementById('variable-form')
 const symbolsList = document.getElementById('symbols-list')
 
-// ADD ASSET FORMS
 let assetFormState = 'empty';
 const addStockForm = 
 `<div id="add-asset-form">
@@ -23,40 +22,7 @@ const addStockForm =
 // RENDER THE PAGE
 renderPage()
 
-function renderAddAssetForm(mode, content) {
-    /*
-    Renders the "add asset" form.
-    
-    A different form will open if you press the three buttons
-    If you press the same button again, the form will close.
-    If you press a different button, the new form will pop up.
-    */
-    if (assetFormState == mode) {
-        addNewAssetForm.innerHTML = ''
-        assetFormState = 'empty'
-    } else {
-        addNewAssetForm.innerHTML = content
-        assetFormState = mode
-    }
-}
-
-function addAssetFormAlert(alert) {
-    /*
-    Adds an alert where the asset form should go,
-    indicating an operation failed.
-    */
-    addNewAssetForm.innerHTML = `
-    <div class="gd-container sidebar-text">
-        <p class="alert">${alert}</p>
-    </div>`
-    assetFormState = 'empty'
-}
-
-function addStockButtonOnclick() {
-    renderAddAssetForm('stock', addStockForm)
-}
-
-// RENDERING THE PAGE
+// FUNCTIONS FOR RENDERING THE PAGE
 async function renderPage() {
     const userData = await getUserDataFromEndpoint()
     renderStocksInPortfolio(userData)
@@ -95,6 +61,41 @@ function renderStocksInPortfolio(userDataJson) {
         `
     }
     symbolsList.innerHTML = htmlString
+}
+
+// FUNCTIONS FOR THE 'ADD ASSET' FORMS
+function renderAddAssetForm(mode, content) {
+    /*
+    Renders the "add asset" form.
+    
+    A different form will open if you press the three buttons
+    If you press the same button again, the form will close.
+    If you press a different button, the new form will pop up.
+    */
+    if (assetFormState == mode) {
+        addNewAssetForm.innerHTML = ''
+        assetFormState = 'empty'
+    } else {
+        addNewAssetForm.innerHTML = content
+        assetFormState = mode
+    }
+}
+
+function addAssetFormAlert(alert) {
+    /*
+    Adds an alert where the asset form should go,
+    indicating an operation failed.
+    */
+    addNewAssetForm.innerHTML = `
+    <div class="gd-container sidebar-text">
+        <p class="alert">${alert}</p>
+    </div>`
+    assetFormState = 'empty'
+}
+
+// FUNCTIONS FOR ADDING/REMOVING STOCKS
+function addStockButtonOnclick() {
+    renderAddAssetForm('stock', addStockForm)
 }
 
 async function addStock() {
