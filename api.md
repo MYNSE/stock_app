@@ -1,4 +1,4 @@
-# Adding assets
+All endpoints use POST requests with JSON data
 
 ### [POST] /v1/add_stock
 
@@ -19,3 +19,14 @@ Required:
 
 Optional: 
  - rate: the annual interest rate of the asset. Currently, we assume that the interest rate will compound monthly
+
+### [POST] /v1/get_user_data
+
+Returns user data as a JSON
+
+### [POST] /v1/remove_symbol
+
+Removes a symbol
+
+Required:
+ - symbol: the one to remove
