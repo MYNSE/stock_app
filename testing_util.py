@@ -8,7 +8,7 @@ def add_stock(ticker):
         data = None
     else:
         data = {'ticker': ticker}
-    response = requests.post(BASE_URL + 'v1/add_stock', data=data)
+    response = requests.post(BASE_URL + 'v1/add_stock', json=data)
     print(response.content)
     return response
 
@@ -17,13 +17,13 @@ def add_fixed(symbol, data=None):
     if data is None:
         data = dict()
     data['symbol'] = symbol
-    response = requests.post(BASE_URL + 'v1/add_fixed_rate', data=data)
+    response = requests.post(BASE_URL + 'v1/add_fixed_rate', json=data)
     print(response.content)
     return response
 
 
 def remove_stock(symbol):
-    response = requests.post(BASE_URL + 'v1/remove_symbol', data={'symbol': symbol})
+    response = requests.post(BASE_URL + 'v1/remove_symbol', json={'symbol': symbol})
     print(response.content)
     return response
 
@@ -42,5 +42,17 @@ def set_categories(data):
 
 def run_gd():
     response = requests.post(BASE_URL + 'v1/run_gd')
+    print(response.content)
+    return response
+
+
+def add_category(data):
+    response = requests.post(BASE_URL + 'v1/add_category', json=data)
+    print(response.content)
+    return response
+
+
+def get_data():
+    response = requests.post(BASE_URL + 'v1/get_user_data')
     print(response.content)
     return response

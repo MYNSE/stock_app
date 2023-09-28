@@ -19,15 +19,15 @@ def add_stock_to_portfolio(ticker):
     """
     portfolio = USER_DATA.current_portfolio
 
-    if ticker in portfolio.symbols:
+    if ticker in portfolio.get_symbols():
         return {'code': 400,
                 'data': 'Symbol already exists in the portfolio.'}
 
     if not DATA_STORE.add_ticker_data(ticker):
         return {'code': 404, 'data': 'Data Fetching failed. Make sure ticker is on Yahoo Finance.'}
 
-    portfolio.symbols.append(ticker)
-    return {'code': 200, 'data': 'Portfolio: ' + str(portfolio.symbols)}
+    portfolio.add_symbol(ticker)
+    return {'code': 200, 'data': 'Portfolio: ' + str(portfolio.get_symbols())}
 
 
 def add_fixed_rate(form):
@@ -52,7 +52,7 @@ def add_fixed_rate(form):
 
     portfolio = USER_DATA.current_portfolio
 
-    if ticker in portfolio.symbols:
+    if ticker in portfolio.get_symbols():
         return {'code': 400,
                 'data': 'Symbol already exists in the portfolio.'}
 
@@ -60,9 +60,9 @@ def add_fixed_rate(form):
         return {'code': 400,
                 'data': 'Failed to create symbol. Make sure its name is unique'}
 
-    portfolio.symbols.append(ticker)
+    portfolio.add_symbol(ticker)
     return {'code': 200,
-            'data': 'Portfolio: ' + str(portfolio.symbols)}
+            'data': 'Portfolio: ' + str(portfolio.get_symbols())}
 
 
 def remove_symbol_from_portfolio(symbol):
@@ -71,10 +71,10 @@ def remove_symbol_from_portfolio(symbol):
     :param symbol: The symbol to remove
     """
     portfolio = USER_DATA.current_portfolio
-    if symbol in portfolio:
-        portfolio.remove(symbol)
+    if symbol in portfolio.get_symbols():
+        portfolio.remove_symbol(symbol)
         return {'code': 200,
-                'data': 'Portfolio: ' + str(portfolio.symbols)}
+                'data': 'Portfolio: ' + str(portfolio.get_symbols())}
     else:
         return {'code': 400,
                 'data': 'Symbol not found in current portfolio'}
@@ -86,7 +86,7 @@ def set_all_allocations(request_data):
     """
     portfolio = USER_DATA.current_portfolio
 
-    if set(request_data.keys()) != set(portfolio.symbols):
+    if set(request_data.keys()) != set(portfolio.get_symbols()):
         return {'code': 400,
                 'data': "Failed. Make sure you include an allocation for each portfolio symbol."}
 
@@ -137,3 +137,28 @@ def return_user_data():
     """
     return {'code': 200,
             'json': user_data_to_json(USER_DATA)}
+
+
+def add_category(cat_data):
+    """
+    Adds a category to the portfolio
+    :param cat_data:
+    :return:
+    """
+    if ('title' not in cat_data or
+            'symbols' not in cat_data or
+            'color' not in cat_data or
+            not isinstance(cat_data['symbols'], list)):
+        return {'code': 500,
+                'data': 'Something is probably messed up in the client...'}
+
+    symbols = USER_DATA.current_portfolio.get_symbols()
+    for stock in cat_data['symbols']:
+        if stock not in symbols:
+            return {'code': 400,
+                    'data': 'Make sure all symbols exist before adding them to a category'}
+
+    # add the category
+    USER_DATA.current_portfolio.add_category(cat_data)
+
+    return {'code': 200}

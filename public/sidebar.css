@@ -1,13 +1,13 @@
+:root {
+    --sb-title-text-font: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
 /* Specific styling for the sidebar */
 
 #sidebar {
     display: flex;
     flex-direction: column;
-}
-
-/* Container with 'add new asset' buttons */
-#add-buttons-container {
-    grid-row: 1 / span 2;
+    overflow-y: scroll;
 }
 
 /* 
@@ -33,7 +33,7 @@ each one is expected to contain some text divs
     color: #EEEEEE;
     font-size: 14px;
     font-weight: bold;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: var(--sb-title-text-font);
 }
 
 /* big text panel on the sidebar */
@@ -127,6 +127,7 @@ each one is expected to contain some text divs
 /* Symbol info listing in sidebar */
 .symbol-info {
     display: flex;
+    background-color: var(--sidebar-color);
 }
 
 /* Buttons related to ticker, eg. remove button */
@@ -145,4 +146,43 @@ each one is expected to contain some text divs
 .ticker-buttons > button:active {
     background-color: #666666;
     color: #ffffff;
+}
+
+/* Styling related to categories in the sidebar */
+.symbol-category {
+    background-color: #5f667a;
+    padding: 10px 5px 5px 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Title of the category */
+.category-title {
+    user-select: none;
+    margin: 0;
+    text-align: left;
+    padding: 0 0 5px 0;
+    color: #EEEEEE;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: var(--sb-title-text-font);
+}
+
+/* Buttons related to the category */
+.category-buttons {
+    display: flex;
+}
+
+.category-buttons > button {
+    margin-left: auto;
+    background-color: #333333;
+    color: #DDDDDD;
+    font-family: inherit;
+    border: none;
+    padding: 5px 5px;
+    border-radius: 5px;
 }

@@ -45,22 +45,59 @@ function renderStocksInPortfolio(userDataJson) {
     Renders stocks in portfolio based on user data returned from
     API endpoint.
     */
-    let stocks = userDataJson.portfolio.symbols
-    let htmlString = ''
-    let symbol = ''
-    for (let i=0; i < stocks.length; i++) {
-        symbol = stocks[i]
-        htmlString +=
-        `
-        <div class="symbol-info sidebar-text sidebar-text-hover">
-            <p class="symbol">${symbol}</p>
-            <div class="ticker-buttons">
-                <button onclick="removeSymbolButtonOnclick(this)">Remove</button>
+    let itemsToAppend = []
+    let userSymbolList = userDataJson.portfolio.symbols
+    for (let i=0; i < userSymbolList.length; i++) {
+        let data = userSymbolList[i]
+        if (typeof data !== 'object') {
+            // Data is just a ticker, render appropriately
+            const symbolInfoDiv = document.createElement('div')
+            symbolInfoDiv.classList.add('symbol-info', 'sidebar-text', 'sidebar-text-hover')
+            symbolInfoDiv.innerHTML = 
+            `
+            <p class="symbol">${data}</p>
+                <div class="ticker-buttons">
+                    <button onclick="removeSymbolButtonOnclick(this)">Remove</button>
             </div>
-        </div>
-        `
+            `
+            itemsToAppend.push(symbolInfoDiv)
+        } else {
+            // Data is a category, containing tickers
+            const title = data.title
+            const color = data.color
+            const symbols = data.symbols
+            
+            const categoryDiv = document.createElement('div')
+            categoryDiv.classList.add('symbol-category')
+
+            const categoryButtonsDiv = document.createElement('div')
+            categoryButtonsDiv.classList.add('category-buttons')
+            categoryButtonsDiv.innerHTML = 
+            `
+            <p class="category-title">${title}</p>
+            <button class="category-remove-button">Remove</button>
+            `
+            categoryDiv.append(categoryButtonsDiv)
+
+            // Add all tickers to the category
+            for (let i = 0; i < symbols.length; i++) {
+                const symbolDiv = document.createElement('div')
+                symbolDiv.classList.add('symbol-info', 'sidebar-text', 'sidebar-text-hover')
+                symbolDiv.innerHTML = 
+                `
+                <p class="symbol">${symbols[i]}</p>
+                <div class="ticker-buttons">
+                    <button onclick="alert('not implemented')">Remove</button>
+                </div>
+                `
+                categoryDiv.append(symbolDiv)
+            }
+            categoryDiv.style.backgroundColor = color
+            itemsToAppend.push(categoryDiv)
+        }
     }
-    symbolsList.innerHTML = htmlString
+    symbolsList.innerHTML = ''
+    symbolsList.append(...itemsToAppend)
 }
 
 // FUNCTIONS FOR THE 'ADD ASSET' FORMS
@@ -113,8 +150,8 @@ async function addStock() {
 
     // Handle the response
     if (!addStockResponse.ok) {
-        const error = await response.text()
-        addAssetFormAlert(errorText)
+        const error = await addStockResponse.text()
+        addAssetFormAlert(error)
     } else {
         // Re-render the stock list
         const userData = await getUserDataFromEndpoint()
