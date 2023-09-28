@@ -3,6 +3,7 @@ const baseURL = window.location.href //ends with /
 const addStockEndpoint = baseURL + 'v1/add_stock'
 const removeSymbolEndpoint = baseURL + 'v1/remove_symbol'
 const userDataEndpoint = baseURL + 'v1/get_user_data'
+const removeSymbolFromCategoryEndpoint = baseURL + 'v1/remove_symbol_from_category'
 
 const addNewAssetForm = document.getElementById('variable-form')
 const symbolsList = document.getElementById('symbols-list')
@@ -87,7 +88,7 @@ function renderStocksInPortfolio(userDataJson) {
                 `
                 <p class="symbol">${symbols[i]}</p>
                 <div class="ticker-buttons">
-                    <button onclick="alert('not implemented')">✖️</button>
+                    <button onclick="removeFromCategory('${symbols[i]}', '${title}')">✖️</button>
                 </div>
                 `
                 categoryDiv.append(symbolDiv)
@@ -182,4 +183,20 @@ async function removeSymbolButtonOnclick(removeStockButton) {
     
     const userData = await getUserDataFromEndpoint()
     renderStocksInPortfolio(userData)
+}
+
+async function removeFromCategory(symbol, title) {
+    // Removes a symbol from a category of <title>
+    const addStockResponse = await fetch(removeSymbolFromCategoryEndpoint, {
+        method: "POST",
+        body: JSON.stringify({symbol: symbol, category: title}),
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+    })
+
+    if (addStockResponse.ok) {
+        const userData = await getUserDataFromEndpoint()
+        renderStocksInPortfolio(userData)
+    }
 }
