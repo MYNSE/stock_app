@@ -87,7 +87,7 @@ function renderStocksInPortfolio(userDataJson) {
                 `
                 <p class="symbol">${symbols[i]}</p>
                 <div class="ticker-buttons">
-                    <button onclick="alert('not implemented')">Remove</button>
+                    <button onclick="alert('not implemented')">✖️</button>
                 </div>
                 `
                 categoryDiv.append(symbolDiv)
