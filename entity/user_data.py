@@ -1,3 +1,6 @@
+from data_transfer.webapp_wrapper import PortfolioWebWrapper
+
+
 class Portfolio:
     def __init__(self):
         """
@@ -6,9 +9,6 @@ class Portfolio:
         """
         self.symbols = []
         self.percentage_allocations = dict()
-
-    def remove(self, symbol):
-        self.symbols.remove(symbol)
 
     def __contains__(self, item):
         return item in self.symbols
@@ -68,11 +68,12 @@ class UserData:
 
     def get_portfolio(self, portfolio_name):
         """
-        Gets a portfolio from the user's data. Creates a new portfolio if the name didn't exist.
+        Gets a portfolio from the user's data and sets it to the current portfolio.
+        Creates a new portfolio if the name didn't exist.
         :param portfolio_name: The name of the portfolio to return
         :return: The portfolio
         """
         if portfolio_name not in self.portfolios:
             self.portfolios[portfolio_name] = Portfolio()
-        self.current_portfolio = self.portfolios[portfolio_name]
+        self.current_portfolio = PortfolioWebWrapper(self.portfolios[portfolio_name])
         return self.current_portfolio

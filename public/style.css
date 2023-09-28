@@ -27,7 +27,7 @@ html, body {
 }
 
 #sidebar {
-    background-color: #242424;
+    background-color: var(--sidebar-color);
     grid-column: 1 / span 1;
     grid-row: 2 / -1;
 }
@@ -36,4 +36,24 @@ html, body {
     background-color: #444444;
     grid-column: 2 / -1;
     grid-row: 2 / -1;
+}
+
+/* Scroll bar styling */
+:root {
+    --sidebar-color: #242424;
+}
+
+/* Webkit-based browsers (Chrome, Safari) */
+/* Customize the scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #101010;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
 }
