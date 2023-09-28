@@ -27,8 +27,17 @@ class PortfolioWebWrapper:
             if symbol in category['symbols']:
                 category['symbols'].remove(symbol)
 
+    def remove_symbol_from_category(self, symbol, category):
+        for c in self.categories:
+            if c['title'] == category:
+                if symbol in c['symbols']:
+                    c['symbols'].remove(symbol)
+
     def get_categories(self):
         return self.categories
+
+    def get_category_names(self):
+        return [category['title'] for category in self.categories]
 
     def add_symbol(self, symbol):
         self.portfolio.symbols.append(symbol)
