@@ -28,6 +28,18 @@ def remove_stock(symbol):
     return response
 
 
+def add_category(title, color, symbols):
+    response = requests.post(BASE_URL + 'v1/add_category', json={'title': title, 'color': color, 'symbols': symbols})
+    print(response.content)
+    return response
+
+
+def remove_from_category(symbol, category):
+    response = requests.post(BASE_URL + 'v1/remove_symbol_from_category', json={'symbol': symbol, 'category': category})
+    print(response.content)
+    return response
+
+
 def set_params(params):
     response = requests.post(BASE_URL + 'v1/set_gd_params', json=params)
     print(response.content)
@@ -42,12 +54,6 @@ def set_categories(data):
 
 def run_gd():
     response = requests.post(BASE_URL + 'v1/run_gd')
-    print(response.content)
-    return response
-
-
-def add_category(data):
-    response = requests.post(BASE_URL + 'v1/add_category', json=data)
     print(response.content)
     return response
 

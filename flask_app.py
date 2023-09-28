@@ -89,6 +89,16 @@ def add_category_to_portfolio():
     return create_response(response_args)
 
 
+@app.route('/v1/remove_symbol_from_category', methods=['POST'])
+def remove_symbol_from_category():
+    """
+    Remove symbol from category
+    """
+    cat_data = request.get_json()
+    response_args = Server.remove_symbol_from_category(cat_data['symbol'], cat_data['category'])
+    return create_response(response_args)
+
+
 @app.route('/v1/set_all_allocations', methods=['POST'])
 def set_all_allocations():
     """

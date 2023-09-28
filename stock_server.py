@@ -162,3 +162,15 @@ def add_category(cat_data):
     USER_DATA.current_portfolio.add_category(cat_data)
 
     return {'code': 200}
+
+
+def remove_symbol_from_category(symbol, category):
+    """
+    Removes symbol from category
+    :param symbol:
+    :param category:
+    :return:
+    """
+    USER_DATA.current_portfolio.remove_symbol_from_category(symbol, category)
+
+    return {'code': 200}
